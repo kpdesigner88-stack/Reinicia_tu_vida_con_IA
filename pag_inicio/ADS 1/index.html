@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reinicia tu Vida con IA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.cdnfonts.com/css/macan');
+        /*
+        INSTRUCCIONES GENERALES DE ESTILO
+        1) Paleta de colores oficial (modo oscuro)
+        Principal - Deep Midnight: #00080a
+        Secundario - Teal Drive: #055f76
+        Acento - Mist Cyan: #b1cdd3
+        Gris Carbón translúcido: rgba(255,255,255,0.06)
+        Texto Principal - Blanco 92%: rgba(255,255,255,0.92)
+        Texto Secundario - Blanco 70%: rgba(255,255,255,0.70)
+        */
+
+        body {
+            background-color: #00080a;
+            color: rgba(255, 255, 255, 0.92);
+            font-family: 'Macan', sans-serif;
+            scroll-behavior: smooth;
+            padding-top: 80px; /* Mobile padding for smaller bar */
+        }
+        
+        @media (min-width: 768px) {
+            body {
+                padding-top: 100px; /* Desktop padding for larger bar */
+            }
+        }
+
+
+        .bg-deep-midnight { background-color: #00080a; }
+        .bg-teal-drive { background-color: #055f76; }
+        .bg-mist-cyan { background-color: #b1cdd3; }
+        .text-mist-cyan { color: #b1cdd3; }
+        .text-teal-drive { color: #055f76; }
+        .text-main { color: rgba(255, 255, 255, 0.92); }
+        .text-secondary { color: rgba(255, 255, 255, 0.70); }
+        .border-teal-drive { border-color: #055f76; }
+        .shadow-teal-drive\/40 { box-shadow: 0 10px 15px -3px rgba(5, 95, 118, 0.4), 0 4px 6px -2px rgba(5, 95, 118, 0.2); }
+
+
+        .container {
+            max-width: 1140px;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 24px;
+            padding-right: 24px;
+        }
+        
+        @media (min-width: 768px) {
+            .container {
+                padding-left: 32px;
+                padding-right: 32px;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .container {
+                padding-left: 40px;
+                padding-right: 40px;
+            }
+        }
+
+        h1, h2, h3 {
+            font-weight: 700;
+            letter-spacing: 0.01em; /* Tracking H1/H2: +1% */
+            line-height: 1.25;
+        }
+        
+        h1 { font-size: 2.5rem; }
+        h2 { font-size: 2rem; }
+        h3 { font-size: 1.5rem; }
+
+        p {
+            line-height: 1.75;
+            max-width: 75ch;
+        }
+
+        .cta-primary {
+            background-color: #b1cdd3;
+            color: #00080a;
+            font-weight: 500;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 14px rgba(177, 205, 211, 0.2);
+            display: inline-block;
+            text-align: center;
+        }
+
+        .cta-primary:hover {
+            background-color: #a2c2c9;
+            box-shadow: 0 0 15px #055f76, 0 0 5px #b1cdd3;
+            transform: translateY(-2px);
+        }
+
+        .cta-secondary {
+            background-color: transparent;
+            color: #b1cdd3;
+            font-weight: 500;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            border: 1px solid #055f76;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: inline-block;
+            text-align: center;
+        }
+
+        .cta-secondary:hover {
+            background-color: rgba(5, 95, 118, 0.2);
+            border-color: #b1cdd3;
+            color: #fff;
+        }
+        
+        .card {
+            background-color: rgba(255, 255, 255, 0.06);
+            border: 1px solid #055f76;
+            border-radius: 16px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: #b1cdd3;
+        }
+
+        .section-padding {
+            padding-top: 48px;
+            padding-bottom: 48px;
+        }
+
+        @media (min-width: 768px) {
+            .section-padding {
+                padding-top: 64px;
+                padding-bottom: 64px;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+             .section-padding {
+                padding-top: 88px;
+                padding-bottom: 88px;
+            }
+        }
+
+        .check-icon {
+            width: 20px;
+            height: 20px;
+            color: #b1cdd3;
+        }
+
+        .faq-item details > summary {
+            list-style: none;
+        }
+        .faq-item details > summary::-webkit-details-marker {
+            display: none;
+        }
+        
+        .faq-item summary {
+            cursor: pointer;
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 500;
+        }
+        .faq-item summary .icon {
+            transition: transform 0.3s ease;
+        }
+        .faq-item details[open] summary .icon {
+            transform: rotate(45deg);
+        }
+
+        @keyframes gentle-pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.03);
+            }
+        }
+
+        .animate-gentle-pulse {
+            animation: gentle-pulse 4s infinite cubic-bezier(0.4, 0, 0.6, 1);
+        }
+
+        @keyframes stress-vibration {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            20% { transform: translate(-1px, 1px) rotate(-0.1deg); }
+            40% { transform: translate(-1px, -1px) rotate(0.1deg); }
+            60% { transform: translate(1px, 1px) rotate(0deg); }
+            80% { transform: translate(1px, -1px) rotate(0.1deg); }
+            100% { transform: translate(0, 0) rotate(-0.1deg); }
+        }
+
+        .animate-stress-vibration {
+            animation: stress-vibration 0.2s linear infinite;
+        }
+
+        /* --- Mobile-First Styles for Countdown, WhatsApp, and FOMO --- */
+        .countdown-bar {
+            background-color: #1f2937;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+            padding: 0.5rem 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            height: 80px; /* Shorter bar for mobile */
+        }
+        .countdown-box {
+            text-align: center;
+        }
+        .countdown-number {
+            position: relative;
+            background: linear-gradient(to bottom, #2b3a4e 0%, #1c2635 100%);
+            padding: 0.5rem 0.5rem; /* Less padding on mobile */
+            border-radius: 8px;
+            font-size: 1.5rem; /* Smaller font for mobile */
+            font-weight: 700;
+            line-height: 1;
+            min-width: 50px; /* Smaller width for mobile */
+            display: inline-block;
+            color: #fff;
+            box-shadow: 0 2px 3px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.1);
+            border-top: 1px solid rgba(255,255,255,0.15);
+        }
+        .countdown-number::before {
+            content: '';
+            position: absolute; left: 0; right: 0; top: 50%;
+            height: 1px; background-color: rgba(0, 0, 0, 0.6); z-index: 2;
+        }
+        .countdown-number::after {
+            content: '';
+            position: absolute; left: 0; right: 0; top: 0; bottom: 50%;
+            background-color: rgba(0, 0, 0, 0.1); z-index: 1; border-radius: 8px 8px 0 0;
+        }
+        .countdown-label {
+            font-size: 0.6rem; /* Smaller label for mobile */
+            text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.7; margin-top: 8px;
+        }
+        .countdown-bar .separator {
+            font-size: 1.5rem; font-weight: 300; color: #b1cdd3; transform: translateY(-8px);
+        }
+        
+        .cta-neon {
+            background-color: transparent; border: 2px solid #00BFFF; color: #00BFFF;
+            padding: 0.5rem 1.5rem; border-radius: 8px; font-weight: 700; text-transform: uppercase;
+            text-shadow: 0 0 5px rgba(0, 191, 255, 0.7);
+            box-shadow: 0 0 5px rgba(0, 191, 255, 0.5), 0 0 10px rgba(0, 191, 255, 0.5), inset 0 0 5px rgba(0, 191, 255, 0.5);
+            transition: all 0.3s ease; white-space: nowrap;
+        }
+
+        .cta-neon:hover {
+            background-color: #00BFFF; color: #00080a;
+            box-shadow: 0 0 10px #00BFFF, 0 0 20px #00BFFF, 0 0 40px #00BFFF;
+        }
+
+        .whatsapp-container {
+            position: fixed; bottom: 1rem; right: 1rem; z-index: 1000;
+        }
+        
+        /* Styles for larger screens */
+        @media (min-width: 768px) {
+            .countdown-bar {
+                height: 100px;
+            }
+            .countdown-number {
+                font-size: 2rem;
+                padding: 0.5rem 0.75rem;
+                min-width: 60px;
+            }
+            .countdown-label {
+                font-size: 0.7rem;
+            }
+            .whatsapp-container {
+                bottom: 2rem;
+                right: 2rem;
+            }
+        }
+        
+    </style>
+</head>
+<body class="bg-deep-midnight text-main">
+    
+    <!-- Countdown Timer Bar -->
+    <div id="countdown-bar" class="countdown-bar fixed top-0 left-0 right-0 text-white z-50 flex items-center">
+        <div class="container mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-2 sm:gap-4">
+                 <div class="hidden lg:block">
+                    <img src="https://i.postimg.cc/QxWXg7g7/BIG-SALE-75-OFF.webp" alt="Oferta Especial" class="h-20 w-auto rounded-lg">
+                </div>
+                <span class="font-bold uppercase text-base sm:text-lg md:text-2xl" style="color: #00BFFF; text-shadow: 0 0 8px rgba(0, 191, 255, 0.8), 0 0 12px rgba(0, 191, 255, 0.6);">
+                    ¡LA OFERTA TERMINA PRONTO!
+                </span>
+            </div>
+            <div class="flex items-center gap-2 sm:gap-4">
+                <div class="flex items-center justify-center gap-1 md:gap-2">
+                    <div class="countdown-box">
+                        <span id="hours" class="countdown-number">00</span>
+                        <div class="countdown-label">Horas</div>
+                    </div>
+                    <span class="separator hidden sm:inline">:</span>
+                    <div class="countdown-box">
+                        <span id="minutes" class="countdown-number">00</span>
+                        <div class="countdown-label">Minutos</div>
+                    </div>
+                    <span class="separator hidden sm:inline">:</span>
+                    <div class="countdown-box">
+                        <span id="seconds" class="countdown-number">00</span>
+                        <div class="countdown-label">Segundos</div>
+                    </div>
+                </div>
+                 <a href="https://pay.hotmart.com/B100742851R?off=xo0z5nfs" target="_blank" class="cta-neon hidden sm:inline-block">Quiero la oferta</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sección 1: HERO -->
+    <header class="hero-section-bg relative overflow-hidden bg-no-repeat bg-cover bg-[position:center_20%] md:bg-center min-h-[50vh] md:min-h-0" style="background-image: url('https://i.postimg.cc/wBrQX8Bb/SECCION-HERO3.webp');">
+        <!-- Desktop: This header is empty on purpose to just show the background -->
+        <div class="hidden md:block h-[70vh]"></div>
+        <!-- Mobile Gradient Overlay -->
+        <div class="absolute inset-0 bg-gradient-to-t from-deep-midnight via-deep-midnight/50 to-transparent md:hidden"></div>
+    </header>
+    
+    <section class="section-padding pt-0 md:pt-16">
+        <div class="container">
+             <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="text-center md:text-left">
+                    <h2 class="text-2xl md:text-3xl font-bold text-mist-cyan mb-6">Convierte tu celular en una herramienta de ingresos en días, no meses.</h2>
+                    <p class="text-base text-secondary mb-8">Ebook práctico y 100% accionable para emprendedores, creadores y profesionales que quieren monetizar su conocimiento, producir mejor contenido y automatizar lo esencial usando inteligencia artificial... sin computadora y sin perder tiempo en teorías.</p>
+                </div>
+                
+                <div class="space-y-3 max-w-md mx-auto md:mx-0">
+                    <div class="bg-deep-midnight/60 border border-teal-drive/50 rounded-lg p-3 backdrop-blur-sm">
+                        <div class="flex items-center space-x-3">
+                            <svg class="check-icon flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+                            <span class="text-main text-base sm:text-lg">Ebook Maestro, Reinicia tu vida con IA - pasos claros</span>
+                        </div>
+                    </div>
+                     <div class="bg-deep-midnight/60 border border-teal-drive/50 rounded-lg p-3 backdrop-blur-sm">
+                        <div class="flex items-center space-x-3">
+                            <svg class="check-icon flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+                            <span class="text-main text-base sm:text-lg">Prompts y ejemplos listos para ejecutar</span>
+                        </div>
+                    </div>
+                     <div class="bg-deep-midnight/60 border border-teal-drive/50 rounded-lg p-3 backdrop-blur-sm">
+                        <div class="flex items-center space-x-3">
+                            <svg class="check-icon flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+                            <span class="text-main text-base sm:text-lg">Resultados medibles desde la primera semana</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <main>
+        <!-- Sección 2: Lo que te frena -->
+        <section class="section-padding" style="background: linear-gradient(180deg, #00080a 0%, #051a21 100%);">
+            <div class="container text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6">Lo que te frena hoy (y cómo lo resuelves)</h2>
+                <p class="text-secondary max-w-3xl mx-auto mb-12">Seamos directos. Si todavía no generas ingresos con IA, suele ser por una combinación de frenos:</p>
+                
+                <div class="flex justify-center items-center mb-12 md:hidden">
+                     <img src="https://i.postimg.cc/KYVTf0Wd/imagen-2-seccion-2.png" alt="Solución al problema" class="rounded-lg shadow-lg max-w-md w-full animate-stress-vibration">
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8 items-center">
+                    <div class="text-left space-y-4">
+                        <div class="flex items-start"><span class="bg-teal-drive text-deep-midnight rounded-full w-6 h-6 flex items-center justify-center mr-3 flex-shrink-0">1</span><p class="text-secondary"><strong>Falta de claridad:</strong> no sabes qué vender ni por dónde comenzar.</p></div>
+                        <div class="flex items-start"><span class="bg-teal-drive text-deep-midnight rounded-full w-6 h-6 flex items-center justify-center mr-3 flex-shrink-0">2</span><p class="text-secondary"><strong>Poco tiempo:</strong> necesitas atajos reales que se hagan desde el teléfono.</p></div>
+                        <div class="flex items-start"><span class="bg-teal-drive text-deep-midnight rounded-full w-6 h-6 flex items-center justify-center mr-3 flex-shrink-0">3</span><p class="text-secondary"><strong>Miedo a lo técnico:</strong> crees que esto es "solo para expertos" o que necesitas equipo caro.</p></div>
+                        <div class="flex items-start"><span class="bg-teal-drive text-deep-midnight rounded-full w-6 h-6 flex items-center justify-center mr-3 flex-shrink-0">4</span><p class="text-secondary"><strong>Saturación de información:</strong> demasiados tutoriales sueltos, cero sistema.</p></div>
+                         <div class="flex items-start"><span class="bg-teal-drive text-deep-midnight rounded-full w-6 h-6 flex items-center justify-center mr-3 flex-shrink-0">5</span><p class="text-secondary"><strong>Contenido inconsistente:</strong> cuesta publicar con calidad y frecuencia.</p></div>
+                        <div class="flex items-start"><span class="bg-teal-drive text-deep-midnight rounded-full w-6 h-6 flex items-center justify-center mr-3 flex-shrink-0">6</span><p class="text-secondary"><strong>Dudas para validar:</strong> miedo a invertir en una idea que no vende.</p></div>
+                        <div class="flex items-start"><span class="bg-teal-drive text-deep-midnight rounded-full w-6 h-6 flex items-center justify-center mr-3 flex-shrink-0">7</span><p class="text-secondary"><strong>Cero automatización:</strong> haces a mano tareas repetitivas que te quitan foco.</p></div>
+                        <div class="flex items-start"><span class="bg-teal-drive text-deep-midnight rounded-full w-6 h-6 flex items-center justify-center mr-3 flex-shrink-0">8</span><p class="text-secondary"><strong>"No tengo laptop":</strong> piensas que sin computadora no puedes empezar.</p></div>
+                    </div>
+                    <div class="hidden md:flex justify-center items-center">
+                         <img src="https://i.postimg.cc/KYVTf0Wd/imagen-2-seccion-2.png" alt="Solución al problema" class="rounded-lg shadow-lg max-w-md w-full animate-stress-vibration">
+                    </div>
+                </div>
+
+                <div class="mt-16 grid md:grid-cols-2 gap-8 items-center max-w-4xl mx-auto">
+                    <div class="hidden md:flex justify-center order-1">
+                        <div class="relative w-full max-w-sm">
+                           <img src="https://i.postimg.cc/8kYpr4vS/0-Mockup-portada-Ebook-principal.webp" alt="Ebook Reinicia tu Vida con IA" class="relative z-10 rounded-lg shadow-2xl shadow-teal-drive/40 w-full transform transition-transform duration-300 hover:scale-105">
+                           <div class="absolute inset-0 bg-teal-drive/20 rounded-lg blur-xl transform -translate-x-4 translate-y-4"></div>
+                        </div>
+                    </div>
+                    <div class="card order-2">
+                        <div class="flex justify-center mb-6 md:hidden">
+                            <img src="https://i.postimg.cc/8kYpr4vS/0-Mockup-portada-Ebook-principal.webp" alt="Ebook Reinicia tu Vida con IA" class="w-48 rounded-lg shadow-lg">
+                        </div>
+                        <div class="text-left uppercase">
+                            <h3 class="text-2xl lg:text-3xl font-bold mb-4 text-mist-cyan">REINICIA TU VIDA CON IA desmonta cada freno con un proceso claro y medible:</h3>
+                            <ul class="space-y-3 list-disc list-inside text-secondary text-lg">
+                                <li>Detectas oportunidades y nichos con criterios concretos.</li>
+                                <li>Validas ideas con prompts y mini-encuestas en 48-72 horas.</li>
+                                <li>Creas contenido que vende con estructuras de copy y guiones cortos.</li>
+                                <li>Monetizas con servicios rápidos o micro-productos.</li>
+                                <li>Automatizas lo esencial para no perder interesados.</li>
+                            </ul>
+                            <p class="mt-4 font-semibold text-lg"><strong>Resultado esperado:</strong> pasas de la confusión a un plan ejecutable y lanzas una oferta cobrable en días, no en meses.</p>
+                        </div>
+                    </div>
+                </div>
+                 <div class="mt-12">
+                     <a href="https://pay.hotmart.com/B100742851R?off=xo0z5nfs" target="_blank" class="cta-secondary text-lg">Quiero el sistema por $5 USD</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección 3: El Sistema -->
+        <section class="section-padding" style="background: linear-gradient(180deg, #051a21 0%, #00080a 100%);">
+            <div class="container">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4">El sistema: de cero a ingresos en días</h2>
+                    <p class="text-secondary max-w-3xl mx-auto">Un marco paso a paso para convertir conocimiento en resultados medibles con IA, sin depender de herramientas costosas ni conocimientos técnicos avanzados.</p>
+                </div>
+
+                <div class="flex justify-center my-8 md:hidden">
+                    <img src="https://i.postimg.cc/RVnM1t1b/solucion-de-problemas-exitoso.webp" alt="Persona logrando el éxito" class="rounded-lg shadow-lg max-w-lg w-full">
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div class="space-y-4">
+                        <div class="card p-6">
+                            <h4 class="font-bold text-mist-cyan">Día 1: Diagnóstico claro</h4>
+                            <p class="text-secondary text-sm">Respondes 10 preguntas guía y eliges una vía de monetización. Sales con foco, promesa y objetivo (p. ej., 3 ventas o 20 leads).</p>
+                        </div>
+                        <div class="card p-6">
+                            <h4 class="font-bold text-mist-cyan">Día 2: Oferta & MVP listo</h4>
+                            <p class="text-secondary text-sm">Con ChatGPT + Canva creas el índice, textos y maqueta (10–15 págs.) o guion de micro-curso. Terminas con un MVP vendible.</p>
+                        </div>
+                        <div class="card p-6">
+                            <h4 class="font-bold text-mist-cyan">Día 3: Empaque en video/audio</h4>
+                            <p class="text-secondary text-sm">Grabas un video corto o pack de audios (CapCut/Canva/IA de voz) para elevar percepción de valor. Entregable exportado y usable.</p>
+                        </div>
+                        <div class="card p-6">
+                            <h4 class="font-bold text-mist-cyan">Día 4: Venta activa</h4>
+                            <p class="text-secondary text-sm">Publicas en Gumroad/Hotmart/Etsy/Ko-fi (o catálogo en WhatsApp Business). Quedas con listing + link de pago funcionando.</p>
+                        </div>
+                         <div class="card p-6">
+                            <h4 class="font-bold text-mist-cyan">Día 5: Marketing en 1 día</h4>
+                            <p class="text-secondary text-sm">Produces 1 carrusel, 2 reels y 2 stories; programas todo y dejas FAQs/bot con respuesta. Calendario cargado + flujo automático.</p>
+                        </div>
+                        <div class="card p-6">
+                            <h4 class="font-bold text-mist-cyan">Día 6: Lanzamiento & feedback</h4>
+                            <p class="text-secondary text-sm">Publicas, compartes en 10 contactos/comunidades y mides visitas, clics y DMs. Buscas ≥1 venta o ≥20 leads calificados.</p>
+                        </div>
+                        <div class="card p-6">
+                            <h4 class="font-bold text-mist-cyan">Día 7: Optimización & automatización</h4>
+                            <p class="text-secondary text-sm">Ajustas título/portada/precio según datos y activas 1 automatización (Zapier/IFTTT). Cierras con +1 mejora publicada + 1 automatización activa.</p>
+                        </div>
+                        <div class="card p-6">
+                            <h4 class="font-bold text-mist-cyan">Semana 2+: Ajuste y continuidad</h4>
+                            <p class="text-secondary text-sm">Repites lo que funcionó, corriges lo que no y construyes tu propio playbook.</p>
+                        </div>
+                    </div>
+                     <div class="hidden md:flex flex-col items-center">
+                         <img src="https://i.postimg.cc/RVnM1t1b/solucion-de-problemas-exitoso.webp" alt="Persona logrando el éxito" class="rounded-lg shadow-lg max-w-lg w-full">
+                         <img src="https://i.postimg.cc/d1W0RLZT/Seccion-3-imagen-2.webp" alt="Ebook con 12 capítulos" class="rounded-lg shadow-lg max-w-lg w-full mt-8 animate-gentle-pulse">
+                     </div>
+                </div>
+
+                <div class="flex justify-center my-8 md:hidden">
+                    <img src="https://i.postimg.cc/d1W0RLZT/Seccion-3-imagen-2.webp" alt="Ebook con 12 capítulos" class="rounded-lg shadow-lg max-w-lg w-full mt-8 animate-gentle-pulse">
+                </div>
+
+                <div class="mt-16">
+                    <div class="card w-full">
+                        <h4 class="text-xl font-bold text-center">Qué te llevas:</h4>
+                        <p class="text-secondary text-center mt-2 max-w-3xl mx-auto">Un ebook completo (12 capítulos) con ejemplos, modelos y prompts ilustrativos para aplicar el proceso de principio a fin sin adivinar.</p>
+                    </div>
+                </div>
+                 <p class="text-center text-xl mt-12 font-semibold mx-auto">Objetivo final: pasar de consumidor a creador que cobra, con un sistema simple, directo y orientado a métricas.</p>
+            </div>
+        </section>
+
+        <!-- Sección 4: Resultados en la práctica -->
+        <section class="section-padding" style="background: linear-gradient(180deg, #00080a 0%, #051a21 100%);">
+            <div class="container">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4">Resultados en la práctica: tres escenarios que puedes replicar</h2>
+                </div>
+                <div class="grid md:grid-cols-3 gap-8 mt-20">
+                    <div class="card text-left relative pt-16">
+                        <div class="absolute top-0 left-6 transform -translate-y-1/2 bg-teal-drive/30 rounded-full p-5 shadow-lg border border-teal-drive">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-mist-cyan" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-4 text-mist-cyan">1) Servicio exprés</h3>
+                        <p class="text-secondary mb-2"><strong>Perfil:</strong> freelance/profesional con poco tiempo.</p>
+                        <p class="text-secondary mb-4"><strong>Aplicación:</strong> detectas un dolor de nicho, ofreces un paquete rápido (p. ej., "portadas + copies para reels" en 48 h).</p>
+                        <p class="font-semibold"><strong>Resultado típico en 7-14 días:</strong> 3-5 ventas de ticket bajo, agenda validada, primeras reseñas.</p>
+                    </div>
+                    <div class="card text-left relative pt-16">
+                        <div class="absolute top-0 left-6 transform -translate-y-1/2 bg-teal-drive/30 rounded-full p-5 shadow-lg border border-teal-drive">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-mist-cyan" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9" />
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-4 text-mist-cyan">2) Micro-producto digital</h3>
+                        <p class="text-secondary mb-2"><strong>Perfil:</strong> quién busca algo escalable.</p>
+                        <p class="text-secondary mb-4"><strong>Aplicación:</strong> empaquetas know-how en un kit descargable (guía breve + ejemplos + checklist).</p>
+                        <p class="font-semibold"><strong>Resultado en la primera iteración:</strong> ventas promocionales, lista de interesados y feedback.</p>
+                    </div>
+                    <div class="card text-left relative pt-16">
+                        <div class="absolute top-0 left-6 transform -translate-y-1/2 bg-teal-drive/30 rounded-full p-5 shadow-lg border border-teal-drive">
+                           <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-mist-cyan" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.76 9.76 0 01-2.555-.337A5.972 5.972 0 015.41 20.97a5.969 5.969 0 01-.474-.065 4.48 4.48 0 00.978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-4 text-mist-cyan">3) Contenido que atrae clientes</h3>
+                        <p class="text-secondary mb-2"><strong>Perfil:</strong> creador que publica sin consistencia.</p>
+                        <p class="text-secondary mb-4"><strong>Aplicación:</strong> calendario de 14 días con guiones, estructuras y llamados a la acción medibles.</p>
+                        <p class="font-semibold"><strong>Resultado:</strong> más interacción, mensajes de interés y oportunidades sin invertir en anuncios.</p>
+                    </div>
+                </div>
+                 <p class="text-center text-secondary max-w-3xl mx-auto mt-12 text-lg">Lo que valida el sistema: métricas claras (respuestas, clics, leads, ventas), proceso replicable y aprendizaje acelerado en ciclos cortos. <strong class="text-main">No es suerte; es ejecución con IA.</strong></p>
+            </div>
+        </section>
+
+        <!-- Sección 5: Lo que vas a lograr -->
+        <section class="section-padding bg-deep-midnight" style="background: linear-gradient(180deg, #051a21 0%, #00080a 100%);">
+            <div class="container">
+                 <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4">Lo que vas a lograr (y cómo se mide)</h2>
+                </div>
+                <div class="grid md:grid-cols-2 gap-8 items-start">
+                    <div class="space-y-6">
+                        <div class="flex items-start"><svg class="check-icon flex-shrink-0 mr-4 mt-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg><div><h4 class="font-bold">Publicación consistente que atrae</h4><p class="text-secondary">Meta: duplicar respuestas en 10 días y abrir 5-10 conversaciones calificadas.</p></div></div>
+                        <div class="flex items-start"><svg class="check-icon flex-shrink-0 mr-4 mt-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg><div><h4 class="font-bold">Oferta lista para cobrar en 7 días</h4><p class="text-secondary">Meta: 3-5 ventas de ticket bajo en la primera iteración.</p></div></div>
+                        <div class="flex items-start"><svg class="check-icon flex-shrink-0 mr-4 mt-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg><div><h4 class="font-bold">Producción ágil con IA</h4><p class="text-secondary">8-12 piezas por semana en bloques de 60-90 minutos.</p></div></div>
+                        <div class="flex items-start"><svg class="check-icon flex-shrink-0 mr-4 mt-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg><div><h4 class="font-bold">Validación sin adivinar</h4><p class="text-secondary">Objetivo: 20-30 respuestas útiles por ciclo.</p></div></div>
+                        <div class="flex items-start"><svg class="check-icon flex-shrink-0 mr-4 mt-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg><div><h4 class="font-bold">Automatización esencial</h4><p class="text-secondary">Recordatorios y seguimiento simple para que ningún interesado se enfríe.</p></div></div>
+                         <div class="flex items-start"><svg class="check-icon flex-shrink-0 mr-4 mt-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg><div><h4 class="font-bold">Monetización inicial y escalado simple</h4><p class="text-secondary">Meta: recuperar la inversión el día 1 y multiplicarla en la primera semana.</p></div></div>
+                    </div>
+                    <div class="card">
+                        <h3 class="text-2xl font-bold mb-6 text-center text-mist-cyan">Mapa del ebook:</h3>
+                        <ul class="space-y-4">
+                            <li><strong>Cap. 1-3:</strong> Fundamentos prácticos y diagnóstico rápido.</li>
+                            <li><strong>Cap. 4-6:</strong> Investigación, validación y mensajería que convierte.</li>
+                            <li><strong>Cap. 7-9:</strong> Producción móvil de texto, imagen y video con IA.</li>
+                            <li><strong>Cap. 10-11:</strong> Creación de ofertas, bonos y páginas de pago simples.</li>
+                            <li><strong>Cap. 12:</strong> Automatización básica, métricas y plan de crecimiento.</li>
+                        </ul>
+                         <p class="text-center text-secondary mt-6">Todo está enfocado en que ejecutes ya, desde tu teléfono, con pasos claros y resultados medibles.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Sección 6: Bonos -->
+        <section class="section-padding" style="background: linear-gradient(180deg, #00080a 0%, #051a21 100%);">
+            <div class="container">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4">Bonos exclusivos por lanzamiento</h2>
+                    <p class="text-secondary max-w-3xl mx-auto">Tu compra incluye tres bonos tácticos diseñados para usar de inmediato desde tu celular.</p>
+                </div>
+                
+                <div class="grid md:grid-cols-3 gap-8 md:gap-12 mb-12 mt-24">
+                    <!-- Bono 1 -->
+                    <div class="flex flex-col items-center text-center">
+                        <img src="https://i.postimg.cc/nVWFQ2mn/1-Mockup-portada-bono-1.webp" alt="Bono 1" class="w-56 h-auto rounded-lg shadow-2xl shadow-teal-drive/30 mb-[-60px] relative z-10 transform hover:scale-105 transition-transform duration-300">
+                        <div class="card w-full pt-20 flex-grow flex flex-col justify-center">
+                            <h3 class="text-xl font-bold mb-2 text-mist-cyan">Bono #1: 50 Prompts para vender en redes sociales con IA</h3>
+                            <p class="text-secondary text-sm">Clasificados por objetivo (atracción, interacción, conversión, reactivación) y formato (reels, carruseles, stories).</p>
+                        </div>
+                    </div>
+                    <!-- Bono 2 -->
+                    <div class="flex flex-col items-center text-center">
+                        <img src="https://i.postimg.cc/RCYSndt3/2-Mockup-portada-bono-2.webp" alt="Bono 2" class="w-56 h-auto rounded-lg shadow-2xl shadow-teal-drive/30 mb-[-60px] relative z-10 transform hover:scale-105 transition-transform duration-300">
+                        <div class="card w-full pt-20 flex-grow flex flex-col justify-center">
+                            <h3 class="text-xl font-bold mb-2 text-mist-cyan">Bono #2: 30 Ideas de Servicios Digitales con IA</h3>
+                            <p class="text-secondary text-sm">Descripción, quién lo compra, cómo entregarlo y precio sugerido de lanzamiento.</p>
+                        </div>
+                    </div>
+                    <!-- Bono 3 -->
+                    <div class="flex flex-col items-center text-center">
+                        <img src="https://i.postimg.cc/2jtkBGWb/3-Mockup-portada-bono-3.webp" alt="Bono 3" class="w-56 h-auto rounded-lg shadow-2xl shadow-teal-drive/30 mb-[-60px] relative z-10 transform hover:scale-105 transition-transform duration-300">
+                        <div class="card w-full pt-20 flex-grow flex flex-col justify-center">
+                            <h3 class="text-xl font-bold mb-2 text-mist-cyan">Bono #3: Kit de Prompts Inteligentes para Chat GPT</h3>
+                            <p class="text-secondary text-sm">Prompts maestros para investigar, redactar, planificar contenido y mejorar resultados.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-12 text-center">
+                    <a href="https://pay.hotmart.com/B100742851R?off=xo0z5nfs" target="_blank" class="cta-primary text-lg">Asegurar mis 3 Bonos Hoy por $5USD</a>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Sección 7: La Oferta -->
+        <section id="oferta" class="section-padding" style="background: linear-gradient(180deg, #051a21 0%, #00080a 100%);">
+            <div class="container">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold">La oferta: todo lo que obtienes hoy por solo <span class="text-mist-cyan">$5 USD</span></h2>
+                </div>
+                <div class="flex flex-col items-center gap-8">
+                     <div class="flex justify-center">
+                         <img src="https://i.postimg.cc/QxWXg7g7/BIG-SALE-75-OFF.webp" alt="Gran oferta 75% de descuento" class="rounded-2xl shadow-2xl shadow-teal-drive/30 max-w-xl w-full">
+                     </div>
+
+                    <div class="w-full max-w-3xl text-center">
+                        <p class="text-secondary mb-8">Esto es exactamente lo que recibes con tu compra, con entrega inmediata por email:</p>
+                        
+                        <div class="grid md:grid-cols-2 gap-8 items-center">
+                            <ul class="space-y-4 text-center md:text-left">
+                                <li class="flex items-start"><span class="text-mist-cyan mr-3">✓</span><div><strong class="text-sm">Ebook Maestro "REINICIA TU VIDA CON IA"</strong><br><span class="text-secondary text-xs">(acceso inmediato por email)</span></div></li>
+                                <li class="flex items-start"><span class="text-mist-cyan mr-3">✓</span><div><strong class="text-sm">Bono #1: 50 Prompts para vender</strong><br><span class="text-secondary text-xs">(se habilita al día 7)</span></div></li>
+                                <li class="flex items-start"><span class="text-mist-cyan mr-3">✓</span><div><strong class="text-sm">Bono #2: 30 Ideas de Servicios Digitales</strong><br><span class="text-secondary text-xs">(se habilita al día 7)</span></div></li>
+                                <li class="flex items-start"><span class="text-mist-cyan mr-3">✓</span><div><strong class="text-sm">Bono #3: Kit de Prompts Inteligentes</strong><br><span class="text-secondary text-xs">(se habilita al día 7)</span></div></li>
+                            </ul>
+                             <div class="card p-6 text-center w-full">
+                                 <div class="bg-deep-midnight/40 rounded-lg p-3 text-center mb-4">
+                                    <p class="text-secondary text-lg">Valor de referencia del paquete: <span class="line-through">$48</span></p>
+                                 </div>
+                                 <div class="my-2">
+                                   <p class="text-4xl font-bold">Hoy solo pagas:</p>
+                                   <p class="text-5xl font-bold text-mist-cyan mt-1">$5 USD</p>
+                                </div>
+                                 <p class="text-secondary">Sin suscripciones. Acceso inmediato.</p>
+                             </div>
+                        </div>
+
+                         <div class="mt-12 text-center">
+                            <a href="https://pay.hotmart.com/B100742851R?off=xo0z5nfs" target="_blank" class="cta-primary text-xl w-full md:w-auto">Quiero todo por $5 USD hoy</a>
+                            <div class="mt-6 border border-teal-drive/50 rounded-lg p-3 max-w-md mx-auto">
+                                <p class="text-sm text-secondary">precio de lanzamiento por tiempo limitado; después vuelve a <span class="whitespace-nowrap">$12 USD</span>.</p>
+                            </div>
+                         </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección 8: Garantía -->
+        <section class="section-padding" style="background: linear-gradient(180deg, #00080a 0%, #051a21 100%);">
+            <div class="container">
+                <div class="text-center md:text-left">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-12">Garantía sin rodeos: 7 días para probarlo sin riesgo</h2>
+                </div>
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div class="flex justify-center">
+                        <img src="https://i.postimg.cc/Hs7p0M0z/sello-de-garantia-1.webp" alt="Sello de garantía" class="max-w-xs w-full">
+                    </div>
+                    <div class="text-center md:text-left">
+                        <p class="text-secondary mb-6">Tienes 7 días completos para revisar el ebook y aplicar los primeros pasos. Si dentro de ese periodo sientes que no te acercas a resultados reales -más claridad, publicaciones consistentes, conversaciones por DM o primeras ventas- te devolvemos el 100%.</p>
+                        <div class="card p-6 mb-8">
+                             <h4 class="font-bold mb-4">Cómo funciona:</h4>
+                             <ol class="list-decimal list-inside text-secondary space-y-2">
+                                 <li>Compras hoy y recibes acceso inmediato al ebook.</li>
+                                 <li>Sigues la ruta sugerida: diagnóstico, validación, producción y oferta.</li>
+                                 <li>Evalúas con los criterios del ebook. Si no ves valor, solicitas reembolso.</li>
+                             </ol>
+                        </div>
+                        <p class="text-secondary mb-8"><strong>Riesgo real hoy:</strong> No es comprar el material. El riesgo real es seguir sin un método y perder semanas en piezas sueltas que no convierten.</p>
+                        <div class="text-center">
+                            <a href="https://pay.hotmart.com/B100742851R?off=xo0z5nfs" target="_blank" class="cta-secondary text-lg">Probar sin riesgo por 7 días</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+         <!-- Sección 9: Próxima semana -->
+        <section class="section-padding" style="background: linear-gradient(180deg, #051a21 0%, #00080a 100%);">
+            <div class="container">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4">Cómo se ve tu próxima semana cuando aplicas el método</h2>
+                    <p class="text-secondary max-w-3xl mx-auto">Vamos al grano: esto es lo que pasa cuando te comprometes 7 días. No es motivación; es un plan con tareas claras y resultados observables.</p>
+                </div>
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div class="card">
+                        <h3 class="font-bold text-mist-cyan mb-2">Día 1</h3>
+                        <h4 class="font-semibold mb-2">Claridad inmediata</h4>
+                        <p class="text-secondary text-sm">Haces el diagnóstico guiado y eliges una vía de monetización concreta. Terminas el día con un objetivo definido.</p>
+                    </div>
+                     <div class="card">
+                        <h3 class="font-bold text-mist-cyan mb-2">Días 2–3</h3>
+                        <h4 class="font-semibold mb-2">Validación en campo</h4>
+                        <p class="text-secondary text-sm">Usas los guiones de mensajes para hablar con tu audiencia. Resultado: respuestas reales y objeciones claras.</p>
+                    </div>
+                     <div class="card">
+                        <h3 class="font-bold text-mist-cyan mb-2">Días 3–5</h3>
+                        <h4 class="font-semibold mb-2">Producción asistida por IA</h4>
+                        <p class="text-secondary text-sm">Generas 6–8 piezas de contenido desde el celular. El contenido deja de ser un cuello de botella.</p>
+                    </div>
+                     <div class="card">
+                        <h3 class="font-bold text-mist-cyan mb-2">Días 5–7</h3>
+                        <h4 class="font-semibold mb-2">Oferta activa</h4>
+                        <p class="text-secondary text-sm">Lanzas tu oferta mínima. Objetivo realista: 3 a 5 ventas de ticket bajo o 2 clientes de servicio exprés.</p>
+                    </div>
+                </div>
+                 <div class="mt-12 text-center">
+                    <a href="https://pay.hotmart.com/B100742851R?off=xo0z5nfs" target="_blank" class="cta-primary text-lg">¡Quiero empezar Hoy!</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección 10: FAQ -->
+        <section class="section-padding" style="background: linear-gradient(180deg, #00080a 0%, #051a21 100%);">
+            <div class="container max-w-4xl mx-auto">
+                 <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4">Preguntas frecuentes (FAQ)</h2>
+                </div>
+                <div class="space-y-4">
+                    <div class="faq-item card p-0">
+                        <details>
+                            <summary>
+                                <span>1) ¿Necesito conocimientos técnicos avanzados?</span>
+                                <span class="icon text-mist-cyan text-2xl font-thin">+</span>
+                            </summary>
+                            <div class="px-6 pb-6 text-secondary">
+                                <p>No. El ebook explica los pasos, prompts y ejemplos para ejecutar sin abrumarte.</p>
+                            </div>
+                        </details>
+                    </div>
+                     <div class="faq-item card p-0">
+                        <details>
+                            <summary>
+                                <span>2) ¿Cuánto timepo debo dedicar?</span>
+                                <span class="icon text-mist-cyan text-2xl font-thin">+</span>
+                            </summary>
+                            <div class="px-6 pb-6 text-secondary">
+                                <p>Bloques de 60–90 minutos son suficientes para avanzar. Con la ruta sugerida puedes lanzar tu primera oferta en 7 días.</p>
+                            </div>
+                        </details>
+                    </div>
+                     <div class="faq-item card p-0">
+                        <details>
+                            <summary>
+                                <span>3) ¿Funciona si recién empiezo o si ya vendo?</span>
+                                <span class="icon text-mist-cyan text-2xl font-thin">+</span>
+                            </summary>
+                            <div class="px-6 pb-6 text-secondary">
+                                <p>Sí. Si empiezas, te ayuda a validar y cobrar rápido. Si ya vendes, mejora tu consistencia, mensajes y seguimiento para aumentar la conversión.</p>
+                            </div>
+                        </details>
+                    </div>
+                    <div class="faq-item card p-0">
+                        <details>
+                            <summary>
+                                <span>4) ¿Qué incluye exactamente la compra de $5 USD?</span>
+                                <span class="icon text-mist-cyan text-2xl font-thin">+</span>
+                            </summary>
+                            <div class="px-6 pb-6 text-secondary">
+                                <ul class="list-disc list-inside space-y-2">
+                                    <li>Ebook “REINICIA TU VIDA CON IA” (entrega inmediata).</li>
+                                    <li>Bono #1: 50 Prompts para vender en redes sociales (habilitación al día 7).</li>
+                                    <li>Bono #2: 30 Ideas de Servicios Digitales (habilitación al día 7).</li>
+                                    <li>Bono #3: Kit de Prompts Inteligentes para Chat GPT (habilitación al día 7).</li>
+                                </ul>
+                            </div>
+                        </details>
+                    </div>
+                    <div class="faq-item card p-0">
+                        <details>
+                            <summary>
+                                <span>5) ¿Cuándo recibo los bonos?</span>
+                                <span class="icon text-mist-cyan text-2xl font-thin">+</span>
+                            </summary>
+                            <div class="px-6 pb-6 text-secondary">
+                                <p>A los 7 días posteriores a la compra. Se entregan por email automáticamente si tu compra sigue activa.</p>
+                            </div>
+                        </details>
+                    </div>
+                     <div class="faq-item card p-0">
+                        <details>
+                            <summary>
+                                <span>6) ¿Hay garantía?</span>
+                                <span class="icon text-mist-cyan text-2xl font-thin">+</span>
+                            </summary>
+                            <div class="px-6 pb-6 text-secondary">
+                                <p>Sí. 7 días para probar el ebook. Si no ves valor práctico, solicita reembolso dentro del plazo. (Si hay reembolso, los bonos no se entregan).</p>
+                            </div>
+                        </details>
+                    </div>
+                    <div class="faq-item card p-0">
+                        <details>
+                            <summary>
+                                <span>7) ¿Cómo recibo el material?</span>
+                                <span class="icon text-mist-cyan text-2xl font-thin">+</span>
+                            </summary>
+                            <div class="px-6 pb-6 text-secondary">
+                                <p>Tras pagar, te llega un email con el ebook. Los bonos se envían el día 7.</p>
+                            </div>
+                        </details>
+                    </div>
+                     <div class="faq-item card p-0">
+                        <details>
+                            <summary>
+                                <span>8) ¿Por cuánto timepo tendré acceso?</span>
+                                <span class="icon text-mist-cyan text-2xl font-thin">+</span>
+                            </summary>
+                            <div class="px-6 pb-6 text-secondary">
+                                <p>Ilimitado. Descargas los archivos y los usas cuando quieras.</p>
+                            </div>
+                        </details>
+                    </div>
+                    <div class="faq-item card p-0">
+                        <details>
+                            <summary>
+                                <span>9) ¿Por cuáles medios de pago puedo pagar?</span>
+                                <span class="icon text-mist-cyan text-2xl font-thin">+</span>
+                            </summary>
+                            <div class="px-6 pb-6 text-secondary">
+                                <p>Tarjeta de crédito/débito, Efecty, Nequi, PSE, Bancolombia, Paypal y más.</p>
+                            </div>
+                        </details>
+                    </div>
+                </div>
+                 <div class="mt-12 text-center">
+                    <a href="https://pay.hotmart.com/B100742851R?off=xo0z5nfs" target="_blank" class="cta-primary text-lg">Acceder ahora por $5 USD</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Sección 11: Footer -->
+    <footer class="section-padding border-t border-teal-drive">
+        <div class="container">
+            
+            <div class="grid md:grid-cols-3 gap-8 text-sm text-secondary text-center md:text-left">
+                <div>
+                    <h4 class="font-bold text-main mb-4">Datos de la oferta</h4>
+                    <ul class="space-y-2">
+                        <li><strong>Producto:</strong> Ebook Maestro (12 capítulos)</li>
+                        <li><strong>+3 Bonos:</strong> 50 Prompts, 30 Ideas de Servicios, Kit de Prompts (habilitación día 7)</li>
+                        <li><strong>Entrega:</strong> Inmediata por email</li>
+                        <li><strong>Garantía:</strong> 7 días sobre el ebook</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-main mb-4">Soporte</h4>
+                    <p>¿Dudas con la compra o la descarga? Escríbenos a:</p>
+                    <a href="mailto:impactadstudio@gmail.com" class="text-mist-cyan hover:underline">impactadstudio@gmail.com</a>
+                </div>
+                 <div>
+                    <h4 class="font-bold text-main mb-4">Legales</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-mist-cyan">Térmimos de Uso</a></li>
+                        <li><a href="#" class="hover:text-mist-cyan">Política de Privacidad</a></li>
+                        <li><a href="#" class="hover:text-mist-cyan">Política de Reembolsos</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-teal-drive/30 mt-12 pt-8 text-center text-xs text-secondary/50">
+                 <p class="mb-4 max-w-4xl mx-auto">Descargos importantes: Este sitio no está afiliado ni respaldado por Meta/Facebook, Instagram, TikTok, Google u OpenAI. Las marcas mencionadas pertenecen a sus dueños. Este producto no promete resultados garantizados; el desempeño depende de tu implementación. Los ejemplos son ilustrativos.</p>
+                 <p class="mx-auto">© 2025 IMPACT ADS STUDIO. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- WhatsApp Floating Button -->
+     <div class="whatsapp-container">
+        <a href="https://wa.me/573150564358" target="_blank" class="group">
+            <div class="bg-[#25D366] w-14 h-14 rounded-full flex items-center justify-center shadow-lg transition-transform transform group-hover:scale-110">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+            </div>
+        </a>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+
+        // --- Countdown Timer ---
+        const hoursElement = document.getElementById('hours');
+        const minutesElement = document.getElementById('minutes');
+        const secondsElement = document.getElementById('seconds');
+
+        // Calculate the target time: midnight of the next day in UTC
+        const now = new Date();
+        const tomorrow = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + 1));
+        let countdownTime = Math.floor((tomorrow.getTime() - now.getTime()) / 1000);
+
+
+        const timerInterval = setInterval(() => {
+            if (countdownTime <= 0) {
+                clearInterval(timerInterval);
+                document.getElementById('countdown-bar').innerHTML = '<span class="text-sm font-medium">La oferta ha terminado.</span>';
+                return;
+            }
+
+            let hours = Math.floor(countdownTime / 3600);
+            let minutes = Math.floor((countdownTime % 3600) / 60);
+            let seconds = countdownTime % 60;
+
+            hoursElement.textContent = hours.toString().padStart(2, '0');
+            minutesElement.textContent = minutes.toString().padStart(2, '0');
+            secondsElement.textContent = seconds.toString().padStart(2, '0');
+            
+            countdownTime--;
+        }, 1000);
+    });
+    </script>
+</body>
+</html>
+
